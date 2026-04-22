@@ -10,9 +10,8 @@ const emptyForm = {
 }
 
 export function AdminPage() {
-  const { addProduct, deleteProduct, products, updateProduct } = useStore()
+  const { addProduct, deleteProduct, products } = useStore()
   const [formState, setFormState] = useState(emptyForm)
-  const [editingId, setEditingId] = useState(null)
   const [message, setMessage] = useState('')
 
   const onFieldChange = (event) => {
@@ -22,7 +21,6 @@ export function AdminPage() {
 
   const resetForm = () => {
     setFormState(emptyForm)
-    setEditingId(null)
   }
 
   const submitForm = (event) => {
@@ -33,37 +31,13 @@ export function AdminPage() {
       return
     }
 
-    if (editingId) {
-      updateProduct({
-        id: editingId,
-        ...formState,
-      })
-      setMessage('Product updated successfully.')
-      resetForm()
-      return
-    }
-
     addProduct(formState)
     setMessage('Product added successfully.')
     resetForm()
   }
 
-  const startEdit = (product) => {
-    setEditingId(product.id)
-    setFormState({
-      title: product.title,
-      price: String(product.price),
-      category: product.category,
-      description: product.description,
-      image: product.image,
-    })
-  }
-
   const onDelete = (productId) => {
     deleteProduct(productId)
-    if (editingId === productId) {
-      resetForm()
-    }
     setMessage('Product deleted.')
   }
 
@@ -71,11 +45,11 @@ export function AdminPage() {
     <section className="page fade-up">
       <h1>Admin Panel</h1>
       <p className="page-subtitle">
-        Add new products, edit existing ones and delete unused items.
+        Add new products and delete unused items.
       </p>
 
       <form className="card admin-form" onSubmit={submitForm}>
-        <h2>{editingId ? 'Edit Product' : 'Add Product'}</h2>
+        <h2>Add Product</h2>
         <label htmlFor="title">Title</label>
         <input
           id="title"
@@ -130,13 +104,8 @@ export function AdminPage() {
 
         <div className="admin-form__actions">
           <button className="btn btn--primary" type="submit">
-            {editingId ? 'Save changes' : 'Add product'}
+            Add product
           </button>
-          {editingId && (
-            <button className="btn btn--outline" onClick={resetForm} type="button">
-              Cancel editing
-            </button>
-          )}
         </div>
         {message && <p className="form-message">{message}</p>}
       </form>
@@ -153,13 +122,6 @@ export function AdminPage() {
               </p>
             </div>
             <div className="admin-item__actions">
-              <button
-                className="btn btn--ghost"
-                onClick={() => startEdit(product)}
-                type="button"
-              >
-                Edit
-              </button>
               <button
                 className="btn btn--danger"
                 onClick={() => onDelete(product.id)}
