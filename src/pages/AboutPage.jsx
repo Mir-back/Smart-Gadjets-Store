@@ -23,7 +23,7 @@ export function AboutPage() {
       <div className="card about-card">
         <h2>Contact</h2>
         <p>
-          Phone: <a href="tel:+77001234567">+7 (700) 123-45-67</a>
+          Phone: <a href="tel:+996706389191">+996 (706) 38 9191</a>
         </p>
         <p>
           Email:{' '}

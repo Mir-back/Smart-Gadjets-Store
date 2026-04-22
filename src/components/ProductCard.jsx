@@ -28,7 +28,7 @@ export function ProductCard({
             onClick={() => onToggleFavorite(product.id)}
             type="button"
           >
-            {isFavorite ? 'In Favorites' : 'Add Favorite'}
+            {isFavorite ? 'Del from Favorites' : 'Add Favorite'}
           </button>
           <button
             className="btn btn--primary"
